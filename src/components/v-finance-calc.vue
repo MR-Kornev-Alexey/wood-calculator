@@ -74,6 +74,15 @@
         <div class="my-4">
           <div style="height: 40px">
             <h3>
+              Переплата
+            </h3>
+          </div>
+
+          <div v-show="flagRender" class="out-data">{{ overCalc }} рублей</div>
+        </div>
+        <div class="my-4">
+          <div style="height: 40px">
+            <h3>
               Ежедневный платеж
             </h3>
           </div>
@@ -124,11 +133,16 @@ export default {
           (amount + amount * (percent / 100) * days) /
           days
         ).toFixed(2);
+        this.overCalc = (amount * (percent / 100) * days).toFixed(2);
       } else {
         let tender = Number(this.stateTender);
         this.rateCalc = (
           (amount + (amount * tender) / 100 + amount * (percent / 100) * days) /
           days
+        ).toFixed(2);
+        this.overCalc = (
+          (amount * tender) / 100 +
+          amount * (percent / 100) * days
         ).toFixed(2);
       }
       this.flagRender = true;
@@ -152,6 +166,7 @@ export default {
     }
   },
   data: () => ({
+    overCalc: 0,
     selected: "",
     items: [
       {
